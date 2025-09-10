@@ -1,0 +1,10 @@
+{
+  "titulo": "Juegos de Mesa",
+  "amigos": [
+    { "nombre": "Balatro" },
+    { "nombre": "Counter Strike" },
+    { "nombre": "Puerto Montt" },
+    { "nombre": "Catan" },
+    { "nombre": "UwU" }
+  ]
+}
