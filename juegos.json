@@ -1,0 +1,181 @@
+[
+  {
+    "nombre": "Catan",
+    "jugadores": {
+      "min": 3,
+      "max": 4
+    },
+    "autor": "Klaus Teuber",
+    "ilustrador": "Machael Menzael",
+    "creacion": "1995",
+    "genero": "Estilo Alemán",
+    "complejidad": "media",
+    "edificio": "DAE",
+    "tiempo": {
+      "min": 45,
+      "max": 60
+    },
+    "tags": ["economía","comercio","dados","tablero","negociacion"],
+    "desc": "epico"
+  },
+
+  {
+    "nombre": "Saboteur",
+    "jugadores": {
+      "min": 3,
+      "max": 10
+    },
+    "autor": "Fréderic Moyersoen",
+    "ilustrador": "Andrea Boekhoff",
+    "creacion": "2004",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 30,
+      "max": 45
+    },
+    "tags": ["cartas","engaño","exploración"],
+    "desc": "basado"
+  },
+
+  {
+    "nombre": "Power Hungry Pets",
+    "jugadores": {
+      "min": 2,
+      "max": 6
+    },
+    "autor": "Seiji Kanai",
+    "ilustrador": "Matthew inman",
+    "creacion": "2024",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 15,
+      "max": 15
+    },
+    "tags": ["cartas"],
+    "desc": "lemao"
+  },
+
+  {
+    "nombre": "Virus!",
+    "jugadores": {
+      "min": 2,
+      "max": 6
+    },
+    "autor": "Domingo Cabrero",
+    "ilustrador": "David GJ",
+    "creacion": "2015",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 20,
+      "max": 20
+    },
+    "tags": ["cartas","estrategia"],
+    "desc": "imagenes de bob esponja"
+  },
+
+  {
+    "nombre": "Coup X",
+    "jugadores": {
+      "min": 2,
+      "max": 10
+    },
+    "autor": "Rikki Tahta",
+    "ilustrador": "Alex Jensen",
+    "creacion": "2023",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 15,
+      "max": 20
+    },
+    "tags": ["cartas","engaño"],
+    "desc": "ratatin gamming"
+  },
+
+  {
+    "nombre": "La Feria de las Pulgas de Titirilquén",
+    "jugadores": {
+      "min": 3,
+      "max": 10
+    },
+    "autor": "Edgar Cayce",
+    "ilustrador": "Andrea Trewhela",
+    "creacion": "2022",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 31,
+      "max": 31
+    },
+    "tags": ["cartas","economía","fiesta"],
+    "desc": "MOLECULASMOLECULASMOLECULAS"
+  },
+
+  {
+    "nombre": "Dobble",
+    "jugadores": {
+      "min": 2,
+      "max": 8
+    },
+    "autor": "Denis Blanchot",
+    "ilustrador": "Asmodee",
+    "creacion": "2009",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 10,
+      "max": 15
+    },
+    "tags": ["cartas", "fiesta", "destreza"],
+    "desc": "/wa"
+  },
+
+  {
+    "nombre": "Taco Gato Cabra Queso Pizza",
+    "jugadores": {
+      "min": 2,
+      "max": 8
+    },
+    "autor": "Dave Campbell (II)",
+    "ilustrador": "Dave Campbell (II)",
+    "creacion": "2018",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 10,
+      "max": 30
+    },
+    "tags": ["cartas", "fiesta", "destreza"],
+    "desc": "limon soda"
+  },
+
+  {
+    "nombre": "Fantasma Blitz",
+    "jugadores": {
+      "min": 2,
+      "max": 8
+    },
+    "autor": "Jacques Zeimet",
+    "ilustrador": "Doris Matthäus",
+    "creacion": "2010",
+    "genero": "juego de cartas",
+    "complejidad": "baja",
+    "edificio": "10K",
+    "tiempo": {
+      "min": 20,
+      "max": 20
+    },
+    "tags": ["cartas", "destreza"],
+    "desc": "limon soda-pop"
+  }
+]
