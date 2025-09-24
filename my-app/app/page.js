@@ -1,7 +1,7 @@
 "use client";
 import data from "./data/juegos.json";
-import CajaNombre from "/components/CajaNombre";
 import { useState, useEffect } from "react";
+
 export default function Page() {
   const [Contador, setContador] = useState(0);
   const funcionAprietame = (e) => {
