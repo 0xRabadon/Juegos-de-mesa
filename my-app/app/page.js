@@ -1,5 +1,5 @@
 "use client";
-import data from "./data/nombres.json";
+import data from "./data/juegos.json";
 import CajaNombre from "/components/CajaNombre";
 import { useState, useEffect } from "react";
 export default function Page() {
@@ -9,18 +9,18 @@ export default function Page() {
   };
 
   useEffect(()=>{
-    return alert("pagina cargada exitosamente");
+    return alert("pagina recargada"); //eliminar al terminar
   }, []);
   return (
     <>
       <center>
-        <h1>{data.titulo}</h1>
-        <div>{Contador}</div>
-        <button onClick={funcionAprietame}>Cliqueame!</button>
+        <h1>
+          {
+          "Juegos de Mesa" // comentario
+          }
+        </h1>
         <div>
-          {data.amigos.map((amigo, i) => (
-            <CajaNombre key={i} datosNombre={amigo} indice={i}></CajaNombre>
-          ))}
+          bloque central :V
         </div>
       </center>
     </>

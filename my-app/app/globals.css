@@ -1,5 +1,5 @@
 body{
-    background-color : #f1bc99;
+    background-color : #ffcfaf;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 24px;
 }
@@ -19,7 +19,7 @@ div{
 .nombre-cabecera{
     flex: 1;
     padding: 20px;
-    background-color : #d3b49e;
+    background-color : #ffffff;
     text-align: center;
 }
 .nombre-amigo{
@@ -27,5 +27,5 @@ div{
     padding: 20px;
     font-size: 1.5em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color : #d3b49e;
+    background-color : #ffffff;
 }
