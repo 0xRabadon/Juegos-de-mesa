@@ -1,0 +1,181 @@
+/* NAVBAR */
+.navbar {
+  background: #222;
+  color: white;
+  padding: 15px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+.navbarContainer {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navLinks a {
+  color: white;
+  text-decoration: none;
+}
+
+.active a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* MAIN CONTENT */
+.container {
+  max-width: 1100px;
+  margin: 100px auto 40px;
+  padding: 0 20px;
+}
+
+.pageHeader {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.pageHeader small {
+  font-size: 16px;
+  color: #777;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* PAGINATION */
+.pagination {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.activePage {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 15px;
+  background: #0070f3;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background: #0055aa;
+}
+
+.copyright {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+}
+
+.imageSecondary {
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button:hover {
+  background: #ddd;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.activePage {
+  background: #333 !important;
+  color: #fff;
+  border-color: #333 !important;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  transition: 0.3s ease;
+}
+
+/* Layouts personalizados */
+.gridA {
+  background: #f0f8ff;
+  text-align: center;
+}
+
+.gridB {
+  background: #fff0f5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.gridC {
+  background: #f5fff0;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+}
+
