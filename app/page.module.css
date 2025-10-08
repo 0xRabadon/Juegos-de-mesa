@@ -1,0 +1,194 @@
+/* Barra de navegacion */
+.navbar {
+  background: #222;
+  color: white;
+  position: fixed;
+  inset: 0 0 auto 0;     
+  z-index: 100;
+}
+
+/* Contenido de la barra de navegacion */
+.navbarContainer {
+  height: 70px;
+  padding-inline: 80px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo y enlaces */
+.logo,
+.navLinks a {
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Lista de enlaces (layout) */
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+/* Enlaces */
+.navLinks a {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* Hover para enlaces */
+.navLinks a:hover {
+  background: #444;
+  color: #00ffff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Enlace destacado "Contacto" */
+.navLinks li:last-child a {
+  background: white;
+  color: #222;
+  font-weight: 600;
+}
+
+/* Hover para "Contacto" */
+.navLinks li:last-child a:hover {
+  background: #ffd700;
+  color: #222;
+}
+
+/* Grid de tarjetas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 32px;
+  max-width: 1200px;   
+  margin: 0 auto;      
+  padding: 0 16px;    
+}
+
+/* Tarjeta (contenedor de cada juego) */
+.card {
+  background: white;
+  border: 3px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* Imagen de la tarjeta */
+.imageSecondary {
+  width: 100%;
+  height: 400px;       
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: block;      
+}
+
+/* Contenedor de la paginacion centrado */
+.pagination{
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* Estado activo de la página en la paginacion */
+.activePage {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+/* Limita el ultimo parrafo de la tarjeta a 4 lineas */
+.card p:last-of-type{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* Tags (lista de hashtags) */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+/* Tag individual */
+.tag {
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  background: #f6f7f9;
+  color: #333;
+  line-height: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Hover para tag */
+.tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  background: #eef1f5;
+}
+
+/* Paginacion */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Boton/numero generico de pagina */
+.pagination a,
+.pagination button,
+.pagination span {
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+/* Hover para numero */
+.pagination a:hover,
+.pagination button:hover {
+  transform: translateY(-1px);
+  background: #f0f2f5;
+  border-color: #dfe3e8;
+  color: #111;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+/* Boton de paginacion activo (pagina actual) */
+.pagination .activePage,
+.activePage {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
