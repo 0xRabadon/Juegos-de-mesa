@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
+import CajaComentario from './components/CajaComentarios';
 
 export default function Page() {
   // API data
@@ -122,7 +123,7 @@ export default function Page() {
             onClick={() => setPaginaActual((p) => Math.min(p + 1, totalPaginas))}
             disabled={paginaActual === totalPaginas}
           >
-            »
+          »
           </button>
         </div>
       </main>

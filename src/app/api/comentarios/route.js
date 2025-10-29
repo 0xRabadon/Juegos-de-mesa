@@ -12,7 +12,7 @@ async function ensureFileExists() {
   }
 }
 
-// GET para obtener comentarios
+//obtener comentarios
 export async function GET() {
   await ensureFileExists();
   const data = await fs.readFile(filePath, 'utf8');
@@ -20,7 +20,7 @@ export async function GET() {
   return Response.json(comments);
 }
 
-// POST para agregar comentarios
+//agregar comentarios
 export async function POST(request) {
   const body = await request.json();
   await ensureFileExists();
