@@ -1,6 +1,10 @@
-
 import { z } from 'zod';
+
+// 1. DEFINICIÓN DE ENTRADA
 export const JuegoCreateInput = z.object({
+  id: z.string().optional().nullable(),
+  imagen: z.string().nullable().optional(),
+
   nombre: z.string().min(1, 'nombre es requerido'),
 
   jugadores: z.object({
@@ -31,9 +35,13 @@ export const JuegoCreateInput = z.object({
     v => Array.isArray(v) ? v : (typeof v === 'string' ? [v] : []),
     z.array(z.string().min(1)).min(1, 'al menos 1 párrafo de descripción')
   ),
-}).passthrough();
+}).passthrough(); 
 
+// 2. DEFINICIÓN DE SALIDA (LO QUE VE EL FRONTEND)
 export const JuegoDTO = z.object({
+  id: z.string().nullable().optional(),
+  imagen: z.string().nullable(), // <--- Campo clave para la imagen
+  
   nombre: z.string(),
   jugadores: z.object({
     min: z.number().int().positive(),
@@ -41,7 +49,7 @@ export const JuegoDTO = z.object({
   }),
   autor: z.string(),
   ilustrador: z.string(),
-  creacion: z.string(),                 
+  creacion: z.string(),                
   genero: z.string(),
   complejidad: z.enum(['baja', 'media', 'alta']), 
   edificio: z.string(),
@@ -53,9 +61,11 @@ export const JuegoDTO = z.object({
   desc: z.array(z.string()),
 });
 
+// --- FUNCIONES AUXILIARES ---
 function normTexto(s) {
   return String(s ?? '').trim();
 }
+
 function normComplejidad(s) {
   const v = normTexto(s).toLowerCase();
   if (['baja', 'low', 'facil', 'fácil'].includes(v)) return 'baja';
@@ -64,10 +74,14 @@ function normComplejidad(s) {
   return 'media'; 
 }
 
+// 3. FUNCIÓN DE CONVERSIÓN
 export function toJuegoDTO(input) {
   const data = JuegoCreateInput.parse(input);
 
   const dto = {
+    id: data.id ?? null,
+    imagen: data.imagen ?? null, // <--- Asignación de imagen
+
     nombre: normTexto(data.nombre),
 
     jugadores: {

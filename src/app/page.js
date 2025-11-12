@@ -3,16 +3,14 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import CajaComentario from './components/CajaComentarios';
 import Link from "next/link";
 
 export default function Page() {
-  // API data
   const [juegos, setJuegos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]   = useState(null);
 
-  // Paginacion
+  // Paginación
   const itemsPorPagina = 2;
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -54,7 +52,6 @@ export default function Page() {
 
   return (
     <>
-      {/* Barra de navegacion */}
       <nav className={styles.navbar}>
         <div className={styles.navbarContainer}>
           <a href="#" className={styles.logo}>Juegos de Mesa</a>
@@ -66,40 +63,39 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* Contenido */}
       <main className={styles.container}>
         <h1 className={styles.pageHeader}>
           Catálogo <small>Juegos Recientes</small>
         </h1>
 
-        {/* GRID */}
         <div className={styles.grid}>
           {juegosActuales.map((juego, i) => (
-            // AHORA ENVOLVEMOS LA TARJETA CON <Link>
             <Link
                 key={`${juego.nombre}-${i}`} 
-                // Construimos la ruta dinámica: /juegos/NombreDelJuego
-                // Usamos encodeURIComponent para URLs seguras
                 href={`/juegos/${encodeURIComponent(juego.nombre)}`}
-                className={styles.cardLink} // Opcional: para darle estilo al enlace
+                className={styles.cardLink} 
             >
               <div className={styles.card}>
                 <h3>{juego.nombre}</h3>
 
-                <Image
-                  src={`/images/${juego.nombre.toLowerCase().replace(/\s+/g, "_")}.jpg`}
-                  alt={juego.nombre}
-                  width={700}
-                  height={200}
-                  className={styles.imageSecondary}
-                />
+                <div style={{ position: "relative", width: "100%", height: "200px", marginBottom: "1rem" }}>
+                    <Image
+                      // Usa la URL de Drive o el placeholder local
+                      src={juego.imagen || "/placeholder.jpg"} 
+                      alt={juego.nombre}
+                      fill 
+                      style={{ objectFit: "contain" }}
+                      className={styles.imageSecondary}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={i < 2}
+                    />
+                </div>
 
               <p><b>Autor:</b> {juego.autor}</p>
               <p><b>Año:</b> {juego.creacion}</p>
               <p><b>Género:</b> {juego.genero}</p>
               <p><b>Jugadores:</b> {juego.jugadores?.min} - {juego.jugadores?.max}</p>
 
-              {/* Tags */}
               <p>
                 {(juego.tags ?? []).map((tag, idx) => (
                   <span key={idx} className={styles.tag}>#{tag} </span>
@@ -110,8 +106,6 @@ export default function Page() {
           ))}
         </div>
         
-
-        {/* Paginacion */}
         <div className={styles.pagination}>
           <button
             onClick={() => setPaginaActual((p) => Math.max(p - 1, 1))}
@@ -119,7 +113,6 @@ export default function Page() {
           >
             «
           </button>
-
           {Array.from({ length: totalPaginas }).map((_, i) => (
             <button
               key={i}
@@ -129,12 +122,11 @@ export default function Page() {
               {i + 1}
             </button>
           ))}
-
           <button
             onClick={() => setPaginaActual((p) => Math.min(p + 1, totalPaginas))}
             disabled={paginaActual === totalPaginas}
           >
-          »
+            »
           </button>
         </div>
       </main>
