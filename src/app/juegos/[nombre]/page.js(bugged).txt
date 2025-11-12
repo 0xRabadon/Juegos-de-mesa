@@ -1,0 +1,70 @@
+// /app/juegos/[nombre]/page.js
+import React from 'react';
+// ...
+import { fetchAllGamesFromSheets } from '../../utils/data'; 
+
+// --- Variables para los índices de las columnas ---
+// ¡Cuidado! Estos números dependen de que las columnas nunca cambien de orden.
+const COL_NOMBRE = 0;
+const COL_JUG_MIN = 1;
+const COL_JUG_MAX = 2;
+const COL_AUTOR = 4; // Autor es la columna E, índice 4
+const COL_DESC = 13; // Desc es la columna N, índice 13 (si no cambiaste el rango a N)
+
+
+// -------------------------------------------------------------------------
+// generateStaticParams: AHORA DEBE BUSCAR EL NOMBRE EN EL ÍNDICE 0
+// -------------------------------------------------------------------------
+export async function generateStaticParams() {
+    const rawData = await fetchAllGamesFromSheets();
+    // rawData[0] son los encabezados, rawData.slice(1) son las filas de datos
+    const gameRows = rawData.slice(1); 
+    
+    return gameRows.map((row) => ({
+        // El nombre del juego está en el índice 0 de cada fila
+        nombre: encodeURIComponent(row[COL_NOMBRE]), 
+    }));
+}
+
+// -------------------------------------------------------------------------
+// Componente Principal
+// -------------------------------------------------------------------------
+export default async function ProductDetailPage({ params }) {
+    const resolvedParams = React.use(params);
+
+    const cleanName = decodeURIComponent(resolvedParams.nombre);
+
+    const rawData = await fetchAllGamesFromSheets();
+    const gameRows = rawData.slice(1);
+    
+    // Buscar la fila completa del juego donde el valor en COL_NOMBRE coincida
+    const gameRow = gameRows.find(row => row[COL_NOMBRE] === cleanName); 
+
+    if (!gameRow) {
+        return <div>Error 404: Juego no encontrado.</div>;
+    }
+
+    // AHORA USAS LOS ÍNDICES NUMÉRICOS PARA ACCEDER A LOS DATOS
+    return (
+        <div className="main-layout-container">
+            {/* ... */}
+            <main className="container-main-content">
+                {/* ... */}
+                <div className="product-detail-layout">
+                    {/* ... */}
+                    {/* DERECHA: Información del Google Sheet */}
+                    <div className="product-info-box">
+                        <h1>nombre: {gameRow[COL_NOMBRE]}</h1>
+                        <p>{gameRow[COL_DESC]}</p> 
+                        <p>Autor: {gameRow[COL_AUTOR]}</p>
+                        <p>Jugadores: {gameRow[COL_JUG_MIN]} - {gameRow[COL_JUG_MAX]}</p>
+                        
+                        <hr/>
+                        <h2>Comentarios:</h2>
+                        <p>Los comentarios irían aquí...</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+}

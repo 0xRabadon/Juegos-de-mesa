@@ -1,39 +1,80 @@
-// Obtiene los datos del producto (Google Sheet)
-export async function getStaticProps({ params }) {
-  const { nombre } = params;
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+// IMPORTAR la función que acabamos de crear
+import { fetchAllGamesFromSheets } from '/src/app/api/sheets/route.js'; 
 
-  // 1. Lógica para conectar y obtener TODOS los datos del Google Sheet.
-  // En un proyecto real, se usa una librería (como 'google-spreadsheet')
-  // o se llama a una API que devuelva un JSON.
-  const allGames = [
-    { Nombre: 'Catan', Jugadores_Min: 3, Desc: 'Juego de estrategia...' },
-    { Nombre: 'Saboteur', Jugadores_Min: 3, Desc: 'Juego de cartas de engaño...' },
-    // ... tus datos del Google Sheet
-  ];
-
-  // 2. Busca el juego que coincide con el nombre de la URL
-  const gameData = allGames.find(game => game.Nombre === nombre);
-
-  if (!gameData) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      gameData, // Esto pasa toda la información del Google Sheet al componente
-    },
-    revalidate: 3600, // Regenerar la página si el Google Sheet cambia cada hora
-  };
+// -------------------------------------------------------------------------
+// 1. generateStaticParams: Define qué rutas pre-generar (para el build)
+// -------------------------------------------------------------------------
+export async function generateStaticParams() {
+    // AHORA LLAMA a la función que tiene la lógica de Sheets
+    //const games = await fetchAllGamesFromSheets(); esta funcion no esta en /sheets/route pero el chat me lo agrega igual
+    
+    return games.map((game) => ({
+        // Debe retornar un objeto con el nombre del parámetro (nombre)
+        nombre: encodeURIComponent(game.Nombre), 
+    }));
 }
 
-// Necesario para las Rutas Dinámicas
-export async function getStaticPaths() {
-    // Aquí obtienes la lista de todos los 'Nombres' de tu Google Sheet
-    const gameNames = ['Catan', 'Saboteur', 'Power Hungry P'];
-    
-    const paths = gameNames.map(name => ({
-        params: { nombre: name }
-    }));
+// -------------------------------------------------------------------------
+// 2. Componente Principal (Obtiene los datos del juego específico)
+// -------------------------------------------------------------------------
+export default async function ProductDetailPage({ params }) {
+    // 1. Decodificar el nombre de la URL
+    const cleanName = decodeURIComponent(params.nombre);
 
-    return { paths, fallback: 'blocking' };
+    // 2. Obtener los datos del juego específico
+    const allGames = await fetchAllGamesFromSheets();
+    const gameData = allGames.find(game => game.Nombre === cleanName);
+
+    if (!gameData) {
+        // Next.js se encargará de esto si usas generateStaticParams correctamente, 
+        // pero es buena práctica de manejo de errores.
+        return <div>Error 404: Juego no encontrado.</div>;
+    }
+
+    return (
+        <div className="main-layout-container">
+            {/* Encabezado fijo */}
+            <header className="navbar-fixed-design"></header>
+
+            <main className="container-main-content">
+                {/* Botón de regreso usando Link */}
+                <Link href="/" style={{ marginBottom: '20px', display: 'block' }}>
+                    ← Volver al Catálogo
+                </Link>
+
+                {/* Diseño de la Vista 2 */}
+                <div className="product-detail-layout">
+                    
+                    {/* IZQUIERDA: Imagen del Producto */}
+                    <div className="product-image-box">
+                        <Image
+                            src={`/images/${cleanName.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                            alt={cleanName}
+                            width={300}
+                            height={300}
+                            style={{ border: '3px solid black' }} 
+                        />
+                        <p className="product-label">{cleanName}</p>
+                    </div>
+
+                    {/* DERECHA: Información del Google Sheet */}
+                    <div className="product-info-box">
+                        <h1>nombre: {cleanName}</h1>
+                        <p>{gameData.Desc}</p> 
+                        <p>Autor: {gameData.Autor}</p>
+                        <p>Jugadores: {gameData.Jugadores_Min} - {gameData.Jugadores_Max}</p>
+                        {/* Puedes mapear aquí toda la información de tu hoja */}
+                        
+                        <hr/>
+                        {/* Aquí iría la sección de COMENTARIOS (que por ahora ignoramos) */}
+                        <h2>Comentarios:</h2>
+                        <p>Los comentarios irían aquí y se cargarían con JavaScript si decides implementarlos.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
 }

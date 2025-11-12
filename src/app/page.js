@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import CajaComentario from './components/CajaComentarios';
+import Link from "next/link";
 
 export default function Page() {
   // API data
@@ -74,16 +75,24 @@ export default function Page() {
         {/* GRID */}
         <div className={styles.grid}>
           {juegosActuales.map((juego, i) => (
-            <div key={`${juego.nombre}-${i}`} className={styles.card}>
-              <h3>{juego.nombre}</h3>
+            // AHORA ENVOLVEMOS LA TARJETA CON <Link>
+            <Link
+                key={`${juego.nombre}-${i}`} 
+                // Construimos la ruta dinámica: /juegos/NombreDelJuego
+                // Usamos encodeURIComponent para URLs seguras
+                href={`/juegos/${encodeURIComponent(juego.nombre)}`}
+                className={styles.cardLink} // Opcional: para darle estilo al enlace
+            >
+              <div className={styles.card}>
+                <h3>{juego.nombre}</h3>
 
-              <Image
-                src={`/images/${juego.nombre.toLowerCase().replace(/\s+/g, "_")}.jpg`}
-                alt={juego.nombre}
-                width={700}
-                height={200}
-                className={styles.imageSecondary}
-              />
+                <Image
+                  src={`/images/${juego.nombre.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                  alt={juego.nombre}
+                  width={700}
+                  height={200}
+                  className={styles.imageSecondary}
+                />
 
               <p><b>Autor:</b> {juego.autor}</p>
               <p><b>Año:</b> {juego.creacion}</p>
@@ -97,8 +106,10 @@ export default function Page() {
                 ))}
               </p>
             </div>
+            </Link>
           ))}
         </div>
+        
 
         {/* Paginacion */}
         <div className={styles.pagination}>
