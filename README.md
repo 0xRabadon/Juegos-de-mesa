@@ -1,7 +1,1 @@
-se me sube la bilirrubina
-
-npm install react-dom next
-
-npm install google-spreadsheet
-
-npm install googleapis
+npm install react-dom next google-spreadsheet googleapis
