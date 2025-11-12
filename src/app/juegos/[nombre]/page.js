@@ -1,16 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, use } from "react"; // <--- 1. Agregamos 'use' aquí
+import React, { useEffect, useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./detalle.module.css";
 
 export default function DetalleJuego({ params }) {
-  // 2. DESEMPAQUETAMOS LA PROMESA CON React.use()
-  // En Next.js 15, params no es un objeto directo, es una promesa.
   const paramsDesempaquetados = use(params); 
   const nombreBruto = paramsDesempaquetados.nombre;
-  
   const nombreJuego = nombreBruto ? decodeURIComponent(nombreBruto) : "";
 
   const [juego, setJuego] = useState(null);
@@ -22,7 +19,6 @@ export default function DetalleJuego({ params }) {
 
     (async () => {
       try {
-        // Pedimos la lista completa a la API
         const res = await fetch("/api/juegos", { cache: "no-store" });
         const json = await res.json();
         
@@ -30,7 +26,6 @@ export default function DetalleJuego({ params }) {
 
         const listaJuegos = Array.isArray(json.data) ? json.data : [];
         
-        // Buscamos el juego exacto
         const encontrado = listaJuegos.find(
             g => g.nombre.trim().toLowerCase() === nombreJuego.trim().toLowerCase()
         );
@@ -66,7 +61,8 @@ export default function DetalleJuego({ params }) {
     <main className={styles.container}>
       <Link href="/" className={styles.backButton}>← Volver al catálogo</Link>
 
-      <div className={styles.detailGrid}>
+      {/* Nuevo contenedor para las dos columnas superiores */}
+      <div className={styles.topSectionGrid}> 
         {/* COLUMNA IZQUIERDA: IMAGEN */}
         <div className={styles.imageContainer}>
            <div style={{ position: "relative", width: "100%", height: "100%", minHeight: "400px" }}>
@@ -115,25 +111,26 @@ export default function DetalleJuego({ params }) {
             </div>
           </div>
 
-          <hr className={styles.divider} />
-
-          <div className={styles.description}>
-            <h3>Descripción</h3>
-            {juego.desc && juego.desc.length > 0 ? (
-                juego.desc.map((parrafo, idx) => <p key={idx}>{parrafo}</p>)
-            ) : (
-                <p>No hay descripción disponible.</p>
-            )}
-          </div>
-
-          <div className={styles.tags}>
+          <div className={styles.tags}> {/* Los tags siguen con las características */}
             {juego.tags?.map((tag, i) => (
                 <span key={i} className={styles.tag}>#{tag}</span>
             ))}
           </div>
 
         </div>
+      </div> {/* Fin de topSectionGrid */}
+
+      {/* SECCIÓN INFERIOR: DESCRIPCIÓN (ABARCA TODO EL ANCHO) */}
+      <div className={styles.descriptionSection}> {/* Nuevo contenedor para la descripción */}
+        <hr className={styles.divider} /> {/* Un separador extra si lo deseas */}
+        <h3 className={styles.descriptionTitle}>Descripción del Juego</h3>
+        {juego.desc && juego.desc.length > 0 ? (
+            juego.desc.map((parrafo, idx) => <p key={idx}>{parrafo}</p>)
+        ) : (
+            <p>No hay descripción disponible.</p>
+        )}
       </div>
+
     </main>
   );
 }
