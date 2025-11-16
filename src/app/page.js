@@ -11,7 +11,7 @@ export default function Page() {
   const [error, setError]   = useState(null);
 
   // Paginación
-  const itemsPorPagina = 2;
+  const itemsPorPagina = 500000;
   const [paginaActual, setPaginaActual] = useState(1);
 
   useEffect(() => {
@@ -55,14 +55,8 @@ export default function Page() {
       <nav className={styles.navbar}>
         <div className={styles.navbarContainer}>
           <a href="#" className={styles.logo}>Juegos de Mesa</a>
-          <ul className={styles.navLinks}>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Catálogo</a></li>
-            <li><a href="#">Contacto</a></li>
-          </ul>
         </div>
       </nav>
-
       <main className={styles.container}>
         <h1 className={styles.pageHeader}>
           Catálogo <small>Juegos Recientes</small>
@@ -130,6 +124,8 @@ export default function Page() {
           </button>
         </div>
       </main>
+      <div className={styles.leftBar}></div>
+      <div className={styles.rightBar}></div>
     </>
   );
 }

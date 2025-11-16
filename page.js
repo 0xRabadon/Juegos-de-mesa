@@ -10,7 +10,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   // Paginación
-  const itemsPorPagina = 2;
+  const itemsPorPagina = 4;
   const [paginaActual, setPaginaActual] = useState(1);
 
   useEffect(() => {

@@ -1,10 +1,12 @@
 /* Barra de navegacion */
 .navbar {
-  background: #222;
-  color: white;
+  background: rgb(114, 61, 70);
+  color: rgb(0, 204, 255);
   position: fixed;
   inset: 0 0 auto 0;     
-  z-index: 100;
+  z-index: 1001;
+  align-items: center;
+  
 }
 
 /* Contenido de la barra de navegacion */
@@ -15,21 +17,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1001;
 }
 
 /* Logo y enlaces */
 .logo,
 .navLinks a {
-  color: white;
+  color: rgb(240, 203, 123);
   text-decoration: none;
   transition: all 0.3s ease;
+  z-index: 1001;
+    font-size: 18px;
+  font-family: Droid Sans;
 }
 
 /* Logo */
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  font-family: Helvetica;
+  letter-spacing: 5px;
+  z-index: 1001;
+  align-items: center;
 }
 
 /* Lista de enlaces (layout) */
@@ -37,6 +46,7 @@
   list-style: none;
   display: flex;
   gap: 20px;
+  z-index: 1001;
 }
 
 /* Enlaces */
@@ -45,6 +55,8 @@
   padding: 8px 16px;
   border-radius: 12px;
   font-weight: 500;
+  z-index: 1001;
+  align-items: center;
 }
 
 /* Hover para enlaces */
@@ -53,19 +65,7 @@
   color: #00ffff;
   transform: scale(1.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Enlace destacado "Contacto" */
-.navLinks li:last-child a {
-  background: white;
-  color: #222;
-  font-weight: 600;
-}
-
-/* Hover para "Contacto" */
-.navLinks li:last-child a:hover {
-  background: #ffd700;
-  color: #222;
+  z-index: 1001;
 }
 
 /* Grid de tarjetas */
@@ -85,6 +85,8 @@
   border-radius: 8px;
   padding: 15px;
   box-sizing: border-box;
+  font-size: 18px;
+  font-family: Droid Sans;
 }
 
 /* Imagen de la tarjeta */
@@ -101,6 +103,7 @@
 .pagination{
   text-align: center;
   margin: 30px 0;
+  color: #ff0000;
 }
 
 /* Estado activo de la página en la paginacion */
@@ -108,15 +111,6 @@
   background: #333;
   color: white;
   border-color: #333;
-}
-
-/* Limita el ultimo parrafo de la tarjeta a 4 lineas */
-.card p:last-of-type{
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
 }
 
 /* Tags (lista de hashtags) */
@@ -134,7 +128,7 @@
   font-size: 0.9rem;
   border: 1px solid #e5e7eb;
   border-radius: 9999px;
-  background: #f6f7f9;
+  background: oklch(97.594% 0.00298 264.795);
   color: #333;
   line-height: 1;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -143,7 +137,7 @@
 /* Hover para tag */
 .tag:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(78, 165, 100, 0.253);
   background: #eef1f5;
 }
 
@@ -164,10 +158,10 @@
   min-width: 36px;
   height: 36px;
   padding: 0 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #ac5656;
   border-radius: 10px;
-  background: #fafafa;
-  color: #222;
+  background: rgb(169, 114, 111);
+  color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
@@ -187,8 +181,37 @@
 /* Boton de paginacion activo (pagina actual) */
 .pagination .activePage,
 .activePage {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+  background: rgb(194, 165, 123);
+  color: #000000;
+  border-color: #dd916e;
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+/* --- ESTILOS PARA LAS BARRAS LATERALES --- */
+
+.leftBar,
+.rightBar {
+  position: fixed; /* Fija las barras a la ventana del navegador */
+  top: 0;          /* Las alinea en la parte superior */
+  height: 100vh;   /* Hace que midan el 100% de la altura de la ventana */
+  
+  /* --- ¡Personaliza esto! --- */
+  width: 200px;     /* Ancho de la barra */
+  background-color: rgb(218, 129, 111); /* Color de la barra */
+  /* -------------------------- */
+
+  /* Asegura que estén por encima del contenido si es necesario */
+  z-index: -2000; 
+}
+
+.leftBar {
+  left: 0; /* Pega la barra izquierda al borde izquierdo */
+}
+
+.rightBar {
+  right: 0; /* Pega la barra derecha al borde derecho */
+}
+
+.cardLink {
+  color: inherit; /* Esto hace que el enlace herede el color del texto de su elemento padre */
+  text-decoration: none; /* Esto quita el subrayado */
 }
