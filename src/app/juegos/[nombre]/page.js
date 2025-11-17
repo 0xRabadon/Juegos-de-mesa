@@ -61,11 +61,13 @@ export default function DetalleJuego({ params }) {
     <main className={styles.container}>
       <Link href="/" className={styles.backButton}>← Volver al catálogo</Link>
 
-      {/* Nuevo contenedor para las dos columnas superiores */}
+      {/* SECCIÓN SUPERIOR (Foto + Info) */}
       <div className={styles.topSectionGrid}> 
-        {/* COLUMNA IZQUIERDA: IMAGEN */}
+        
+        {/* FOTO */}
         <div className={styles.imageContainer}>
-           <div style={{ position: "relative", width: "100%", height: "100%", minHeight: "400px" }}>
+           {/* CAMBIO AQUÍ: Usamos clase CSS en lugar de style en línea */}
+           <div className={styles.imageWrapper}>
              <Image
                src={juego.imagen || "/placeholder.jpg"}
                alt={juego.nombre}
@@ -77,7 +79,7 @@ export default function DetalleJuego({ params }) {
            </div>
         </div>
 
-        {/* COLUMNA DERECHA: INFORMACIÓN */}
+        {/* DATOS */}
         <div className={styles.infoContainer}>
           <h1 className={styles.title}>{juego.nombre}</h1>
           
@@ -111,18 +113,17 @@ export default function DetalleJuego({ params }) {
             </div>
           </div>
 
-          <div className={styles.tags}> {/* Los tags siguen con las características */}
+          <div className={styles.tags}>
             {juego.tags?.map((tag, i) => (
                 <span key={i} className={styles.tag}>#{tag}</span>
             ))}
           </div>
 
         </div>
-      </div> {/* Fin de topSectionGrid */}
+      </div> 
 
-      {/* SECCIÓN INFERIOR: DESCRIPCIÓN (ABARCA TODO EL ANCHO) */}
-      <div className={styles.descriptionSection}> {/* Nuevo contenedor para la descripción */}
-        <hr className={styles.divider} /> {/* Un separador extra si lo deseas */}
+      {/* DESCRIPCIÓN */}
+      <div className={styles.descriptionSection}> 
         <h3 className={styles.descriptionTitle}>Descripción del Juego</h3>
         {juego.desc && juego.desc.length > 0 ? (
             juego.desc.map((parrafo, idx) => <p key={idx}>{parrafo}</p>)
