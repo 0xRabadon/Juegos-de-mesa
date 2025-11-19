@@ -1,94 +1,75 @@
-import { NextResponse } from 'next/server'
-import { supabase } from '../../lib/supabaseClient'
+// src/app/api/comentarios/route.js
 
-/**
- * GET /api/comentarios
- * Supported Query Params:
- * - ?id=1            -> Retrieve a specific comment by ID (Primary Key lookup).
- * - ?juego=Catan     -> Retrieve all comments associated with a specific game (Foreign Key logic).
- * - (No params)      -> Retrieve full dataset (use with caution on high volume).
- */
-export async function GET(request) {
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
-  const juego = searchParams.get('juego')
+import { NextResponse } from "next/server";
+import supabase from "@/app/lib/supabaseClient";
 
-  let query = supabase.from('comentarios').select('*')
 
-  if (id) {
-    query = query.eq('id', id)
-  } else if (juego) {
-    query = query.eq('nombre_juego', juego)
+
+// POST – Crear comentario
+export async function POST(req) {
+  try {
+    const { game, email, comment } = await req.json();
+
+    if (!email || !comment || !game) {
+      return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
+    }
+
+    if (!email.endsWith("@alumnos.uach.cl")) {
+      return NextResponse.json({ error: "Correo debe ser institucional" }, { status: 400 });
+    }
+
+    const { data, error } = await supabase
+      .from("comentarios")
+      .insert({
+        nombre_juego: game,
+        email_autor: email,
+        tipo_comentario: "general",
+        texto: comment,
+      })
+      .select();
+
+    if (error) throw error;
+
+    return NextResponse.json(data, { status: 201 });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const { data, error } = await query.order('fecha_creacion', { ascending: false })
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json(data)
 }
 
-/**
- * POST /api/comentarios
- * Persist a new comment record.
- * Required Payload: { nombre_juego, email_autor, tipo_comentario, texto }
- */
-export async function POST(request) {
-  const body = await request.json()
-  const { nombre_juego, email_autor, tipo_comentario, texto } = body
+// GET – Obtener comentarios
+export async function GET(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const game = searchParams.get("game");
 
-  if (!nombre_juego || !email_autor || !tipo_comentario || !texto) {
-    return NextResponse.json(
-      { error: 'Faltan campos obligatorios (nombre_juego, email_autor, tipo_comentario, texto)' },
-      { status: 400 }
-    )
+    const { data, error } = await supabase
+      .from("comentarios")
+      .select("*")
+      .eq("nombre_juego", game)
+      .order("fecha_creacion", { ascending: true });
+
+    if (error) throw error;
+
+    return NextResponse.json(data, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const { data, error } = await supabase
-    .from('comentarios')
-    .insert([{ nombre_juego, email_autor, tipo_comentario, texto }])
-    .select()
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ message: 'Comentario registrado correctamente', data })
 }
 
-/**
- * PATCH /api/comentarios
- * Modify an existing comment record.
- * Required Payload: { id, ...updates }
- */
-export async function PATCH(request) {
-  const body = await request.json()
-  const { id, ...updates } = body
+// DELETE – Borrar comentario
+export async function DELETE(req) {
+  try {
+    const { id } = await req.json();
 
-  if (!id)
-    return NextResponse.json({ error: 'Falta el ID del comentario' }, { status: 400 })
+    const { error } = await supabase
+      .from("comentarios")
+      .delete()
+      .eq("id", id);
 
-  const { error } = await supabase
-    .from('comentarios')
-    .update(updates)
-    .eq('id', id)
+    if (error) throw error;
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ message: `Comentario ${id} actualizado correctamente` })
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }
-
-/**
- * DELETE /api/comentarios?id=X
- * Remove a comment record by ID.
- */
-export async function DELETE(request) {
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
-
-  if (!id)
-    return NextResponse.json({ error: 'Falta el parámetro id' }, { status: 400 })
-
-  const { error } = await supabase
-    .from('comentarios')
-    .delete()
-    .eq('id', id)
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ message: `Comentario ${id} eliminado correctamente` })
-} 

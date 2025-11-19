@@ -1,0 +1,116 @@
+.box {
+  margin-top: 40px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.titulo {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.publicar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  resize: vertical;
+  font-size: 1rem;
+}
+
+.boton {
+  align-self: flex-end;
+  padding: 8px 20px;
+  background: #4a6bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.boton:hover {
+  background: #3b55d6;
+}
+
+.lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  padding: 15px;
+  margin-bottom: 12px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  border: 1px solid #dadada;
+}
+
+.texto {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.fecha {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.botones {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.botonSmall,
+.botonSmall2 {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.botonSmall {
+  background: #4a6bff;
+  color: white;
+}
+
+.botonSmall:hover {
+  background: #3b55d6;
+}
+
+.botonSmall2 {
+  background: #ff5d5d;
+  color: white;
+}
+
+.botonSmall2:hover {
+  background: #d64a4a;
+}
+
+.editBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vacio {
+  text-align: center;
+  color: #898989;
+  font-style: italic;
+  padding: 10px 0;
+}
