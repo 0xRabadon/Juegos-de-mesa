@@ -1,2 +1,1 @@
-npm install react-dom next google-spreadsheet googleapis
-npm install @supabase/supabase-js
+npm install react-dom next google-spreadsheet googleapis @supabase/supabase-js
