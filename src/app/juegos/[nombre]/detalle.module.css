@@ -107,13 +107,22 @@
   gap: 1rem;
 }
 
+/* CORRECCIÓN AQUÍ: Agregamos Flexbox para el centrado perfecto */
 .statBox {
-  background: #ffffff; /* Blanco para resaltar sobre el fondo gris de la web */
-  padding: 1rem;
+  background: #ffffff;
+  padding: 1.2rem 1rem; /* Un poco más de padding vertical */
   border-radius: 12px;
-  text-align: center;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Sutil sombra */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  
+  /* --- MAGIA DEL CENTRADO --- */
+  display: flex;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  justify-content: center; /* Centra verticalmente */
+  align-items: center; /* Centra horizontalmente */
+  text-align: center; /* Asegura que el texto en sí esté centrado */
+  height: 100%; /* Para que todas las cajas tengan la misma altura en la grilla */
+  min-height: 110px; /* Altura mínima para que se vean cuadraditas y uniformes */
 }
 
 .statLabel {
