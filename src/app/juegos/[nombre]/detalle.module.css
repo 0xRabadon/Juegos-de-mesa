@@ -2,8 +2,8 @@
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem 1.5rem; /* Padding seguro a los lados */
-  font-family: system-ui, -apple-system, sans-serif;
+  padding: 2rem 1.5rem;
+  /* ELIMINADO: font-family para que use tu Poppins global */
   color: #333;
   padding-bottom: 5rem;
 }
@@ -25,16 +25,15 @@
   border-bottom-color: #000;
 }
 
-/* --- GRID PRINCIPAL (FOTO + INFO) --- */
+/* --- GRID PRINCIPAL --- */
 .topSectionGrid {
   display: grid;
-  grid-template-columns: 1fr; /* Móvil: 1 columna */
+  grid-template-columns: 1fr;
   gap: 2.5rem;
   align-items: start;
   margin-bottom: 3rem;
 }
 
-/* EN PC: Columna de imagen fija (400px) y el resto para info */
 @media (min-width: 900px) {
   .topSectionGrid {
     grid-template-columns: 400px 1fr; 
@@ -42,13 +41,13 @@
   }
 }
 
-/* --- CONTENEDOR DE IMAGEN --- */
+/* --- CONTENEDOR DE IMAGEN (TARJETA) --- */
 .imageContainer {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1rem;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* Sombra elegante */
+  background-color: #ffffff; /* Blanco puro */
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +56,13 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 400px; /* Altura fija para mantener consistencia */
+  height: 400px; 
+}
+
+@media (max-width: 768px) {
+  .imageWrapper {
+    height: 300px;
+  }
 }
 
 /* --- COLUMNA DE INFO --- */
@@ -73,6 +78,7 @@
   line-height: 1.1;
   color: #111;
   margin: 0;
+  /* Ya usará Poppins automáticamente */
 }
 
 .metaData {
@@ -83,13 +89,18 @@
   font-size: 1rem;
 }
 
+.metaData strong {
+  color: #222;
+  font-weight: 600;
+}
+
 .divider {
   border: 0;
   border-top: 1px solid #eaeaea;
   margin: 1.5rem 0;
 }
 
-/* --- GRID DE ESTADÍSTICAS --- */
+/* --- STATS (CAJITAS) --- */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -97,11 +108,12 @@
 }
 
 .statBox {
-  background: #f8f9fa;
+  background: #ffffff; /* Blanco para resaltar sobre el fondo gris de la web */
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
-  border: 1px solid #eee;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Sutil sombra */
 }
 
 .statLabel {
@@ -111,6 +123,7 @@
   color: #888;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
 }
 
 .statValue {
@@ -119,6 +132,11 @@
   color: #222;
   text-transform: capitalize;
 }
+
+/* Colores de complejidad */
+.statValue[data-level="baja"] { color: #16a34a; }
+.statValue[data-level="media"] { color: #ca8a04; }
+.statValue[data-level="alta"] { color: #dc2626; }
 
 /* Tags */
 .tags {
@@ -129,24 +147,38 @@
 }
 
 .tag {
-  background: #e0e7ff;
-  color: #4338ca;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  background: #eef2ff;
+  color: #4f46e5;
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
   font-size: 0.85rem;
   font-weight: 600;
+  border: 1px solid #e0e7ff;
 }
 
-/* --- DESCRIPCIÓN --- */
+/* --- DESCRIPCIÓN (TARJETA) --- */
 .descriptionSection {
-  margin-top: 2rem;
+  margin-top: 3rem;
+  background-color: #ffffff; /* Blanco */
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+@media (max-width: 768px) {
+  .descriptionSection {
+    padding: 1.5rem;
+  }
 }
 
 .descriptionTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #222;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #111;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1rem;
 }
 
 .descriptionSection p {
@@ -154,5 +186,13 @@
   color: #444;
   margin-bottom: 1rem;
   font-size: 1.05rem;
-  max-width: 800px; /* Para que el texto no sea eterno de leer */
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  text-align: center;
 }
