@@ -2,91 +2,65 @@
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  /* Móvil: Menos relleno para aprovechar la pantalla */
-  padding: 1.2rem; 
+  padding: 2rem 1.5rem; /* Padding seguro a los lados */
   font-family: system-ui, -apple-system, sans-serif;
   color: #333;
-  padding-bottom: 4rem;
-}
-
-/* En PC recuperamos el padding grande */
-@media (min-width: 768px) {
-  .container {
-    padding: 2.5rem;
-  }
-}
-
-/* --- PANTALLAS DE CARGA --- */
-.center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
-  text-align: center;
+  padding-bottom: 5rem;
 }
 
 /* --- BOTÓN VOLVER --- */
 .backButton {
   display: inline-block;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-decoration: none;
   color: #666;
   font-weight: 600;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
+  font-size: 0.95rem;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
 }
 
-.backButton:hover { color: #000; text-decoration: underline; }
+.backButton:hover {
+  color: #000;
+  border-bottom-color: #000;
+}
 
-/* --- GRID SUPERIOR (FOTO + DATOS) --- */
+/* --- GRID PRINCIPAL (FOTO + INFO) --- */
 .topSectionGrid {
   display: grid;
-  grid-template-columns: 1fr; /* Móvil: 1 sola columna vertical */
-  gap: 2rem;
+  grid-template-columns: 1fr; /* Móvil: 1 columna */
+  gap: 2.5rem;
   align-items: start;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
-/* En PC: 2 columnas (40% imagen - 60% info) */
-@media (min-width: 768px) {
+/* EN PC: Columna de imagen fija (400px) y el resto para info */
+@media (min-width: 900px) {
   .topSectionGrid {
-    grid-template-columns: 0.8fr 1.2fr; 
-    gap: 3rem;
-    margin-bottom: 3rem;
+    grid-template-columns: 400px 1fr; 
+    gap: 4rem;
   }
 }
 
 /* --- CONTENEDOR DE IMAGEN --- */
 .imageContainer {
-  background-color: #f9f9f9;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  /* Centrado flex para la imagen */
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* Sombra elegante */
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
-/* CLASE NUEVA: Controla la altura de la imagen */
 .imageWrapper {
   position: relative;
   width: 100%;
-  /* Móvil: Altura controlada para que no ocupe toda la pantalla */
-  height: 300px; 
+  height: 400px; /* Altura fija para mantener consistencia */
 }
 
-/* En PC: Altura grande como te gusta */
-@media (min-width: 768px) {
-  .imageWrapper {
-    height: 100%;
-    min-height: 450px;
-  }
-}
-
-/* --- INFO Y TEXTOS --- */
+/* --- COLUMNA DE INFO --- */
 .infoContainer {
   display: flex;
   flex-direction: column;
@@ -94,106 +68,91 @@
 }
 
 .title {
+  font-size: 2.5rem;
   font-weight: 800;
+  line-height: 1.1;
   color: #111;
   margin: 0;
-  line-height: 1.1;
-  /* Móvil: Texto un poco más chico */
-  font-size: 2rem; 
 }
 
-@media (min-width: 768px) {
-  .title { font-size: 2.8rem; } /* PC: Texto gigante */
+.metaData {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #555;
+  font-size: 1rem;
 }
 
-.metaData p { margin: 0.4rem 0; color: #555; font-size: 0.95rem; }
-.metaData strong { color: #222; font-weight: 600; }
-
-.divider { border: 0; border-top: 1px solid #eaeaea; margin: 1.5rem 0; }
+.divider {
+  border: 0;
+  border-top: 1px solid #eaeaea;
+  margin: 1.5rem 0;
+}
 
 /* --- GRID DE ESTADÍSTICAS --- */
 .statsGrid {
   display: grid;
-  /* Móvil: Columnas automáticas pero mínimo 100px ancho */
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 0.8rem;
-}
-
-@media (min-width: 500px) {
-    .statsGrid {
-        grid-template-columns: repeat(4, 1fr); /* Tablet/PC: 4 en linea */
-    }
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
 }
 
 .statBox {
-  background: #fff;
-  padding: 0.8rem;
-  border-radius: 10px;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
   text-align: center;
-  border: 1px solid #e0e0e0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-}
-
-.statLabel { 
-    font-size: 0.7rem; 
-    text-transform: uppercase; 
-    color: #888; 
-    font-weight: 700; 
-    margin-bottom: 0.3rem; 
-}
-.statValue { 
-    font-size: 1rem; 
-    font-weight: bold; 
-    color: #222; 
-    text-transform: capitalize; 
-}
-
-/* Colores semánticos */
-.statValue[data-level="baja"] { color: #2e7d32; }
-.statValue[data-level="media"] { color: #f57f17; }
-.statValue[data-level="alta"] { color: #c62828; }
-
-/* --- TAGS --- */
-.tags { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 0.5rem; 
-  margin-top: 0.5rem;
-}
-.tag {
-  background: #eef2ff; color: #4f46e5;
-  padding: 0.3rem 0.8rem; border-radius: 50px;
-  font-size: 0.8rem; font-weight: 600;
-  border: 1px solid #e0e7ff;
-}
-
-/* --- SECCIÓN DESCRIPCIÓN --- */
-.descriptionSection {
-  background-color: #fff;
-  padding: 1.5rem; /* Móvil: Padding cómodo */
-  border-radius: 16px;
   border: 1px solid #eee;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-@media (min-width: 768px) {
-  .descriptionSection { padding: 2.5rem; } /* PC: Más aire */
+.statLabel {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  text-transform: capitalize;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  background: #e0e7ff;
+  color: #4338ca;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* --- DESCRIPCIÓN --- */
+.descriptionSection {
+  margin-top: 2rem;
 }
 
 .descriptionTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #222;
-  margin-top: 0;
   margin-bottom: 1rem;
+  color: #222;
 }
 
-.descriptionSection p { 
-  line-height: 1.6; 
-  color: #444; 
-  margin-bottom: 1rem; 
-  font-size: 1rem;
+.descriptionSection p {
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  max-width: 800px; /* Para que el texto no sea eterno de leer */
 }

@@ -1,110 +1,147 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import styles from "./detalle.module.css";
-
-// ⬇️ Nuevo componente que reemplaza al antiguo Comentarios
+// Importamos el cliente de comentarios
 import CommentsClient from "./CommentsClient";
 
-export default function JuegoDetalle() {
-  const params = useParams();
-  const nombre = params?.nombre;
+export default function DetalleJuego({ params }) {
+  // Desempaquetamos los parámetros (Next.js 15)
+  const paramsDesempaquetados = use(params);
+  const nombreBruto = paramsDesempaquetados.nombre;
+  
+  // DECODIFICAR: Esto arregla el "Juego no encontrado".
+  // Convierte "Catan%20Plus" en "Catan Plus"
+  const nombreJuego = nombreBruto ? decodeURIComponent(nombreBruto) : "";
 
   const [juego, setJuego] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!nombre) return;
+    if (!nombreJuego) return;
 
-    async function cargarJuego() {
+    (async () => {
       try {
-        const res = await fetch("/api/juegos");
-        if (!res.ok) throw new Error("Error al cargar los juegos");
-
+        const res = await fetch("/api/juegos", { cache: "no-store" });
         const json = await res.json();
-        const listaJuegos = json.data; // ← FIX
+        
+        if (!res.ok) throw new Error("Error API");
 
-        if (!Array.isArray(listaJuegos)) {
-          throw new Error("La API no devolvió una lista válida");
-        }
-
+        const listaJuegos = Array.isArray(json.data) ? json.data : [];
+        
+        // Buscamos ignorando mayúsculas y espacios extra
         const encontrado = listaJuegos.find(
-          (j) => j.nombre.toLowerCase() === nombre.toLowerCase()
+            g => g.nombre.trim().toLowerCase() === nombreJuego.trim().toLowerCase()
         );
 
         if (!encontrado) {
-          setError("Juego no encontrado");
-          return;
+            setError(`No encontramos el juego: ${nombreJuego}`);
+        } else {
+            setJuego(encontrado);
         }
 
-        setJuego(encontrado);
-      } catch (err) {
-        setError(err.message);
+      } catch (e) {
+        console.error(e);
+        setError("Error de conexión al cargar el juego");
       } finally {
         setLoading(false);
       }
-    }
+    })();
+  }, [nombreJuego]);
 
-    cargarJuego();
-  }, [nombre]);
-
-  if (loading)
-    return (
-      <div className={styles.center}>
-        <h2>Cargando...</h2>
-      </div>
-    );
-
-  if (error)
-    return (
+  if (loading) return <div className={styles.center}><h2>Cargando...</h2></div>;
+  
+  if (error) return (
       <div className={styles.center}>
         <h2>Ups</h2>
         <p>{error}</p>
-        <Link href="/" className={styles.backButton}>
-          Volver al inicio
-        </Link>
+        <Link href="/" className={styles.backButton}>Volver al inicio</Link>
       </div>
-    );
+  );
 
   if (!juego) return null;
 
   return (
     <main className={styles.container}>
-      <Link href="/" className={styles.backButton}>
-        ← Volver
-      </Link>
+      <Link href="/" className={styles.backButton}>← Volver al catálogo</Link>
 
-      <h1 className={styles.title}>{juego.nombre}</h1>
-
-      <div className={styles.content}>
-        <img
-          src={juego.imagen}
-          alt={juego.nombre}
-          className={styles.image}
-        />
-
-        <div className={styles.info}>
-          <p><strong>Género:</strong> {juego.genero}</p>
-          <p><strong>Jugadores:</strong> {juego.jugadores?.min} - {juego.jugadores?.max}</p>
-          <p><strong>Duración:</strong> {juego.tiempo?.min} - {juego.tiempo?.max} min</p>
-          <p><strong>Descripción:</strong></p>
-          {juego.desc?.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+      {/* --- SECCIÓN SUPERIOR: FOTO Y DATOS --- */}
+      <div className={styles.topSectionGrid}> 
+        
+        {/* FOTO (Recuperada la estructura correcta) */}
+        <div className={styles.imageContainer}>
+           <div className={styles.imageWrapper}>
+             <Image
+               src={juego.imagen || "/placeholder.jpg"}
+               alt={juego.nombre}
+               fill
+               style={{ objectFit: "contain" }}
+               className={styles.mainImage}
+               priority
+             />
+           </div>
         </div>
+
+        {/* INFO */}
+        <div className={styles.infoContainer}>
+          <h1 className={styles.title}>{juego.nombre}</h1>
+          
+          <div className={styles.metaData}>
+            <p><strong>Autor:</strong> {juego.autor}</p>
+            <p><strong>Ilustrador:</strong> {juego.ilustrador}</p>
+            <p><strong>Año:</strong> {juego.creacion}</p>
+            <p><strong>Ubicación:</strong> {juego.edificio}</p>
+          </div>
+
+          <hr className={styles.divider} />
+
+          <div className={styles.statsGrid}>
+            <div className={styles.statBox}>
+                <span className={styles.statLabel}>Jugadores</span>
+                <span className={styles.statValue}>{juego.jugadores?.min}-{juego.jugadores?.max}</span>
+            </div>
+            <div className={styles.statBox}>
+                <span className={styles.statLabel}>Tiempo</span>
+                <span className={styles.statValue}>{juego.tiempo?.min}-{juego.tiempo?.max}m</span>
+            </div>
+            <div className={styles.statBox}>
+                <span className={styles.statLabel}>Complejidad</span>
+                <span className={styles.statValue} data-level={juego.complejidad?.toLowerCase()}>
+                    {juego.complejidad}
+                </span>
+            </div>
+             <div className={styles.statBox}>
+                <span className={styles.statLabel}>Género</span>
+                <span className={styles.statValue}>{juego.genero}</span>
+            </div>
+          </div>
+
+          <div className={styles.tags}>
+            {juego.tags?.map((tag, i) => (
+                <span key={i} className={styles.tag}>#{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div> 
+
+      {/* --- SECCIÓN DESCRIPCIÓN --- */}
+      <div className={styles.descriptionSection}> 
+        <h3 className={styles.descriptionTitle}>Descripción</h3>
+        {juego.desc && juego.desc.length > 0 ? (
+            juego.desc.map((parrafo, idx) => <p key={idx}>{parrafo}</p>)
+        ) : (
+            <p>No hay descripción disponible.</p>
+        )}
       </div>
 
-      {/* ⭐ NUEVA SECCIÓN DE COMENTARIOS */}
-      <CommentsClient game={nombre} />
-      {/* --------
-        Explicación:
-        - El componente "Comentarios" fue eliminado
-        - Ahora usamos CommentsClient (el bueno que se conecta a Supabase)
-        - game={nombre} → se usa como identificador único de cada juego
-      -------- */}
+      {/* --- SECCIÓN COMENTARIOS (Nueva y Estilizada) --- */}
+      <div style={{ marginTop: "3rem" }}>
+        <CommentsClient game={juego.nombre} />
+      </div>
+
     </main>
   );
 }
