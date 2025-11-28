@@ -3,9 +3,17 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
-  /* ELIMINADO: font-family para que use tu Poppins global */
   color: #333;
   padding-bottom: 5rem;
+}
+
+/* --- RESET LOCAL (Simula lo que tenías en global) --- */
+.container h1, 
+.container h2, 
+.container h3, 
+.container p {
+  margin: 0; 
+  padding: 0;
 }
 
 /* --- BOTÓN VOLVER --- */
@@ -15,35 +23,27 @@
   text-decoration: none;
   color: #666;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   border-bottom: 1px solid transparent;
   transition: all 0.2s;
 }
+.backButton:hover { color: #000; border-bottom-color: #000; }
 
-.backButton:hover {
-  color: #000;
-  border-bottom-color: #000;
-}
-
-/* --- GRID PRINCIPAL --- */
+/* --- GRID SUPERIOR --- */
 .topSectionGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: start;
   margin-bottom: 3rem;
 }
-
 @media (min-width: 900px) {
-  .topSectionGrid {
-    grid-template-columns: 400px 1fr; 
-    gap: 4rem;
-  }
+  .topSectionGrid { grid-template-columns: 400px 1fr; gap: 4rem; }
 }
 
-/* --- CONTENEDOR DE IMAGEN (TARJETA) --- */
+/* --- IMAGEN --- */
 .imageContainer {
-  background-color: #ffffff; /* Blanco puro */
+  background-color: #ffffff;
   border-radius: 16px;
   padding: 1.5rem;
   border: 1px solid #f0f0f0;
@@ -52,153 +52,94 @@
   justify-content: center;
   align-items: center;
 }
+.imageWrapper { position: relative; width: 100%; height: 400px; }
+@media (max-width: 768px) { .imageWrapper { height: 300px; } }
 
-.imageWrapper {
-  position: relative;
-  width: 100%;
-  height: 400px; 
+/* --- INFO --- */
+.infoContainer { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.title { 
+  font-size: 2.5rem; 
+  font-weight: 800; 
+  line-height: 1.1; 
+  color: #111; 
 }
 
-@media (max-width: 768px) {
-  .imageWrapper {
-    height: 300px;
-  }
-}
+.metaData { display: flex; flex-direction: column; gap: 0.5rem; color: #555; font-size: 1rem; }
+.metaData strong { color: #222; font-weight: 600; }
+.divider { border: 0; border-top: 1px solid #eaeaea; margin: 1.5rem 0; }
 
-/* --- COLUMNA DE INFO --- */
-.infoContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.1;
-  color: #111;
-  margin: 0;
-  /* Ya usará Poppins automáticamente */
-}
-
-.metaData {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  color: #555;
-  font-size: 1rem;
-}
-
-.metaData strong {
-  color: #222;
-  font-weight: 600;
-}
-
-.divider {
-  border: 0;
-  border-top: 1px solid #eaeaea;
-  margin: 1.5rem 0;
-}
-
-/* --- STATS (CAJITAS) --- */
+/* --- STATS --- */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 1rem;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
 }
-
-/* CORRECCIÓN AQUÍ: Agregamos Flexbox para el centrado perfecto */
 .statBox {
   background: #ffffff;
-  padding: 1.2rem 1rem; /* Un poco más de padding vertical */
+  padding: 1rem;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  
-  /* --- MAGIA DEL CENTRADO --- */
   display: flex;
-  flex-direction: column; /* Apila los elementos verticalmente */
-  justify-content: center; /* Centra verticalmente */
-  align-items: center; /* Centra horizontalmente */
-  text-align: center; /* Asegura que el texto en sí esté centrado */
-  height: 100%; /* Para que todas las cajas tengan la misma altura en la grilla */
-  min-height: 110px; /* Altura mínima para que se vean cuadraditas y uniformes */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  min-height: 100px;
 }
-
-.statLabel {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #888;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
+.statLabel { 
+  display: block; 
+  font-size: 0.65rem; 
+  text-transform: uppercase; 
+  color: #9ca3af; 
+  font-weight: 700; 
+  margin-bottom: 0.3rem; 
+  letter-spacing: 0.05em; 
 }
-
-.statValue {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #222;
-  text-transform: capitalize;
+.statValue { 
+  font-size: 1rem; 
+  font-weight: 700; 
+  color: #1f2937; 
+  text-transform: capitalize; 
 }
-
-/* Colores de complejidad */
 .statValue[data-level="baja"] { color: #16a34a; }
 .statValue[data-level="media"] { color: #ca8a04; }
 .statValue[data-level="alta"] { color: #dc2626; }
 
-/* Tags */
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.tag { background: #e0e7ff; color: #4338ca; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid #e0e7ff; }
 
-.tag {
-  background: #eef2ff;
-  color: #4f46e5;
-  padding: 0.4rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  border: 1px solid #e0e7ff;
-}
-
-/* --- DESCRIPCIÓN (TARJETA) --- */
+/* --- DESCRIPCIÓN --- */
 .descriptionSection {
   margin-top: 3rem;
-  background-color: #ffffff; /* Blanco */
-  padding: 2.5rem;
+  background-color: #ffffff;
+  padding: 2rem;
   border-radius: 16px;
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
-
-@media (max-width: 768px) {
-  .descriptionSection {
-    padding: 1.5rem;
-  }
-}
+@media (max-width: 768px) { .descriptionSection { padding: 1.5rem; } }
 
 .descriptionTitle {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem !important;
   color: #111;
   border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 1rem;
+  padding-bottom: 0.8rem;
 }
 
 .descriptionSection p {
-  line-height: 1.8;
+  line-height: 1.6;
   color: #444;
-  margin-bottom: 1rem;
-  font-size: 1.05rem;
+  margin-bottom: 0.8rem !important;
+  font-size: 0.95rem;
 }
 
-.center {
-  display: flex;
+.center { display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;

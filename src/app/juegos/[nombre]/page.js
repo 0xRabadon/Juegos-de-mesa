@@ -13,7 +13,6 @@ export default function DetalleJuego({ params }) {
   const nombreBruto = paramsDesempaquetados.nombre;
   
   // DECODIFICAR: Esto arregla el "Juego no encontrado".
-  // Convierte "Catan%20Plus" en "Catan Plus"
   const nombreJuego = nombreBruto ? decodeURIComponent(nombreBruto) : "";
 
   const [juego, setJuego] = useState(null);
@@ -31,8 +30,6 @@ export default function DetalleJuego({ params }) {
         if (!res.ok) throw new Error("Error API");
 
         const listaJuegos = Array.isArray(json.data) ? json.data : [];
-        
-        // Buscamos ignorando mayúsculas y espacios extra
         const encontrado = listaJuegos.find(
             g => g.nombre.trim().toLowerCase() === nombreJuego.trim().toLowerCase()
         );
@@ -71,7 +68,7 @@ export default function DetalleJuego({ params }) {
       {/* --- SECCIÓN SUPERIOR: FOTO Y DATOS --- */}
       <div className={styles.topSectionGrid}> 
         
-        {/* FOTO (Recuperada la estructura correcta) */}
+        {/* FOTO */}
         <div className={styles.imageContainer}>
            <div className={styles.imageWrapper}>
              <Image
@@ -129,7 +126,7 @@ export default function DetalleJuego({ params }) {
 
       {/* --- SECCIÓN DESCRIPCIÓN --- */}
       <div className={styles.descriptionSection}> 
-        <h3 className={styles.descriptionTitle}>Descripción</h3>
+        <h3 className={styles.descriptionTitle}>Descripción del Juego</h3>
         {juego.desc && juego.desc.length > 0 ? (
             juego.desc.map((parrafo, idx) => <p key={idx}>{parrafo}</p>)
         ) : (
@@ -137,7 +134,7 @@ export default function DetalleJuego({ params }) {
         )}
       </div>
 
-      {/* --- SECCIÓN COMENTARIOS (Nueva y Estilizada) --- */}
+      {/* --- SECCIÓN COMENTARIOS --- */}
       <div style={{ marginTop: "3rem" }}>
         <CommentsClient game={juego.nombre} />
       </div>

@@ -1,29 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
-
-:root {
-  --foreground-rgb: 30, 30, 30;
-  /* ESTE COLOR ES CLAVE: #fafafa (Gris muy claro) */
-  --background-rgb: 250, 250, 250; 
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb)); /* Aquí se aplica el gris */
-  font-family: 'Poppins', sans-serif; /* Aquí se aplica la fuente */
-  -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-input, button, textarea, select {
-  font-family: inherit;
 }
