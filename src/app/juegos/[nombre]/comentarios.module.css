@@ -1,116 +1,139 @@
-.box {
-  margin-top: 40px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+.commentsSection {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 2rem;
 }
 
-.titulo {
-  font-size: 1.7rem;
-  font-weight: bold;
-  margin-bottom: 15px;
+.title {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
 }
 
-.publicar {
+/* --- FORMULARIO --- */
+.form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 25px;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+/* Agrupa Email y Selector en una línea en PC */
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+/* En móvil, que se pongan uno debajo del otro */
+@media (max-width: 600px) {
+    .row { flex-direction: column; }
+}
+
+.input, .textarea, .select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  background: white;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: #4f46e5;
 }
 
 .textarea {
-  width: 100%;
   min-height: 80px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #cccccc;
   resize: vertical;
-  font-size: 1rem;
 }
 
-.boton {
+.submitButton {
   align-self: flex-end;
-  padding: 8px 20px;
-  background: #4a6bff;
+  background-color: #4f46e5;
   color: white;
   border: none;
+  padding: 0.7rem 1.5rem;
   border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
 }
+.submitButton:hover { background-color: #4338ca; }
+.submitButton:disabled { background-color: #ccc; cursor: not-allowed; }
 
-.boton:hover {
-  background: #3b55d6;
-}
+/* --- LISTA --- */
+.commentList { list-style: none; padding: 0; margin: 0; }
 
-.lista {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.item {
-  padding: 15px;
-  margin-bottom: 12px;
-  background: #f8f8f8;
+.commentCard {
+  background: #fff;
+  border: 1px solid #eee;
   border-radius: 10px;
-  border: 1px solid #dadada;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-.texto {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-
-.fecha {
-  font-size: 0.85rem;
-  color: #777;
-}
-
-.botones {
-  margin-top: 10px;
+.commentHeader {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.botonSmall,
-.botonSmall2 {
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+.author {
+  font-weight: 700;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.date { font-size: 0.8rem; color: #888; }
+.text { color: #444; line-height: 1.5; font-size: 1rem; margin: 0; }
+
+.deleteButton {
+  margin-top: 0.8rem;
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
   cursor: pointer;
-  border: none;
-  transition: 0.2s;
+}
+.deleteButton:hover { background: #fee2e2; }
+
+.emptyState { text-align: center; color: #888; font-style: italic; padding: 2rem 0; }
+
+/* --- BADGES (Etiquetas de colores) --- */
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.botonSmall {
-  background: #4a6bff;
-  color: white;
+/* Colores según tipo */
+.badgeReview {
+    background-color: #e0e7ff;
+    color: #4338ca;
 }
 
-.botonSmall:hover {
-  background: #3b55d6;
+.badgeRec {
+    background-color: #dcfce7;
+    color: #166534;
 }
 
-.botonSmall2 {
-  background: #ff5d5d;
-  color: white;
-}
-
-.botonSmall2:hover {
-  background: #d64a4a;
-}
-
-.editBox {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.vacio {
-  text-align: center;
-  color: #898989;
-  font-style: italic;
-  padding: 10px 0;
+.badgeWarn {
+    background-color: #fee2e2;
+    color: #991b1b;
 }
