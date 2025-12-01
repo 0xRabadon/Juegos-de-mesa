@@ -1,26 +1,29 @@
 "use client";
 
+// 1. IMPORTS
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Page() {
+  // 2. ESTADOS Y CONFIGURACIÓN
   const [juegos, setJuegos] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Configuración de paginación
   const itemsPorPagina = 12;
   const [paginaActual, setPaginaActual] = useState(1);
 
-  // --- LÓGICA DE MEMORIA ---
+  // 3. EFECTO DE CARGA (FETCH)
   useEffect(() => {
-    // 1. Cargar datos
     fetch("/api/juegos", { cache: "no-store" })
       .then((res) => res.json())
       .then((json) => {
-        setJuegos(json.data || []);
+        // BLINDAJE: Aseguramos que 'data' sea un array. Si es null, usamos [].
+        setJuegos(Array.isArray(json.data) ? json.data : []); 
         
-        // 2. RECUPERAR ESTADO GUARDADO (Solo si venimos de un detalle)
+        // RECUPERACIÓN DE POSICIÓN (Scroll y Paginación)
         const paginaGuardada = sessionStorage.getItem("catalogo_pagina");
         const scrollGuardado = sessionStorage.getItem("catalogo_scroll");
 
@@ -28,43 +31,47 @@ export default function Page() {
           setPaginaActual(parseInt(paginaGuardada));
         }
 
-        // Quitamos el loading para que se renderice la grilla
         setLoading(false);
 
-        // 3. RESTAURAR SCROLL (Pequeño delay para asegurar que el DOM ya pintó las cartas)
+        // Restaurar scroll si el usuario volvió desde un detalle
         if (scrollGuardado) {
           setTimeout(() => {
             window.scrollTo({ top: parseInt(scrollGuardado), behavior: "instant" });
-            // Opcional: Borrar el scroll guardado para que si recargas F5 no baje solo
             sessionStorage.removeItem("catalogo_scroll"); 
           }, 100);
         }
       })
       .catch((e) => {
-        console.error(e);
+        console.error("Error cargando catálogo:", e);
+        setJuegos([]); // En caso de error, array vacío para no romper la app
         setLoading(false);
       });
   }, []);
 
-  // Función para guardar la posición antes de irse al detalle
+  // 4. FUNCIONES AUXILIARES
   const guardarPosicion = () => {
     sessionStorage.setItem("catalogo_pagina", paginaActual);
     sessionStorage.setItem("catalogo_scroll", window.scrollY);
   };
 
-  // Función para cambiar de página (Limpiamos el scroll guardado porque es una página nueva)
   const cambiarPagina = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
-    sessionStorage.setItem("catalogo_pagina", nuevaPagina); // Guardamos la página nueva
-    sessionStorage.removeItem("catalogo_scroll"); // Borramos el scroll antiguo
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Subimos suavemente
+    sessionStorage.setItem("catalogo_pagina", nuevaPagina);
+    sessionStorage.removeItem("catalogo_scroll");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Calculos de renderizado
+  const resetearApp = () => {
+    sessionStorage.clear();
+    window.location.reload();
+  };
+
+  // 5. CÁLCULOS DE PAGINACIÓN
   const indice = (paginaActual - 1) * itemsPorPagina;
   const juegosVisibles = juegos.slice(indice, indice + itemsPorPagina);
   const totalPaginas = Math.ceil(juegos.length / itemsPorPagina) || 1;
 
+  // 6. RENDERIZADO
   if (loading) {
     return (
       <main className={styles.container}>
@@ -77,11 +84,7 @@ export default function Page() {
     <>
       <nav className={styles.navbar}>
         <div className={styles.navbarContainer}>
-          <a href="#" className={styles.logo} onClick={() => {
-             // Si clickean el logo, reseteamos todo
-             sessionStorage.clear();
-             window.location.reload();
-          }}>
+          <a href="#" className={styles.logo} onClick={resetearApp}>
             Juegos de Mesa
           </a>
         </div>
@@ -89,43 +92,69 @@ export default function Page() {
 
       <main className={styles.container}>
         <h1 className={styles.pageHeader}>
+          {/* Título opcional aquí */}
         </h1>
 
         <div className={styles.grid}>
-          {juegosVisibles.map((juego, i) => (
-            <Link
-              key={`${juego.nombre}-${i}`}
-              href={`/juegos/${encodeURIComponent(juego.nombre)}`}
-              className={styles.cardLink}
-              onClick={guardarPosicion} // <--- AQUÍ OCURRE LA MAGIA AL HACER CLICK
-            >
-              <div className={styles.card}>
-                <h3>{juego.nombre}</h3>
-                
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={juego.imagen || "/placeholder.jpg"}
-                    alt={juego.nombre}
-                    fill
-                    style={{ objectFit: "contain" }}
-                    className={styles.imageSecondary}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    priority={i < 4}
-                  />
-                </div>
+          {juegosVisibles.map((juego, i) => {
+            // --- INICIO DE ZONA SEGURA ---
+            if (!juego) return null; // Saltar objetos nulos
 
-                <p><b>Autor:</b> {juego.autor}</p>
-                <p><b>Año:</b> {juego.creacion}</p>
-                <p><b>Jugadores:</b> {juego.jugadores?.min}-{juego.jugadores?.max}</p>
+            // Variables sanitizadas: Si el campo falta, usamos un valor por defecto.
+            const nombreSeguro = juego.nombre || "Juego sin nombre";
+            const imagenSegura = juego.imagen || "/placeholder.jpg";
+            const autorSeguro = juego.autor || "Autor desconocido";
+            const anioSeguro = juego.creacion || "Año desc.";
+            
+            // Jugadores: Usamos ?. para evitar error si juego.jugadores es null
+            const minJ = juego.jugadores?.min || "?";
+            const maxJ = juego.jugadores?.max || "?";
+            
+            // Link Seguro: Si no hay nombre, desactivamos el link poniendo "#"
+            const linkHref = juego.nombre 
+              ? `/juegos/${encodeURIComponent(juego.nombre)}` 
+              : "#";
+            // --- FIN DE ZONA SEGURA ---
 
-                <div className={styles.tags}>
-                  {(juego.tags ?? []).slice(0, 3).map((tag, idx) => (
-                    <span key={idx} className={styles.tag}>#{tag}</span>
-                  ))}
+            return (
+              <Link
+                key={`${nombreSeguro}-${i}`}
+                href={linkHref}
+                className={styles.cardLink}
+                onClick={(e) => {
+                   if(!juego.nombre) e.preventDefault(); // Bloquear click si no hay datos
+                   guardarPosicion();
+                }}
+              >
+                <div className={styles.card}>
+                  <h3>{nombreSeguro}</h3>
+                  
+                  <div className={styles.imageWrapper}>
+                    <Image
+                      src={imagenSegura}
+                      alt={nombreSeguro}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      className={styles.imageSecondary}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      priority={i < 4} // Prioridad de carga a los primeros 4
+                    />
+                  </div>
+
+                  <p><b>Autor:</b> {autorSeguro}</p>
+                  <p><b>Año:</b> {anioSeguro}</p>
+                  <p><b>Jugadores:</b> {minJ}-{maxJ}</p>
+
+                  <div className={styles.tags}>
+                    {/* (juego.tags ?? []) asegura que siempre sea un array */}
+                    {(juego.tags ?? []).slice(0, 3).map((tag, idx) => (
+                      <span key={idx} className={styles.tag}>#{tag}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
 
         {totalPaginas > 1 && (
@@ -136,9 +165,7 @@ export default function Page() {
             >
               «
             </button>
-
             <span> Página {paginaActual} de {totalPaginas} </span>
-
             <button
               onClick={() => cambiarPagina(Math.min(totalPaginas, paginaActual + 1))}
               disabled={paginaActual === totalPaginas}
