@@ -56,7 +56,7 @@ export default function DetalleJuego({ params }) {
   }, [nombreJuego]);
 
   // 5. RENDERIZADO CONDICIONAL (Carga y Errores)
-  if (loading) return <div className={styles.center}><h2>Cargando...</h2></div>;
+  if (loading) return   <div className={styles.imagenCentrada}> <img src="/foto1.png" alt="Mi imagen" /> </div>;
   
   if (error) return (
       <div className={styles.center}>

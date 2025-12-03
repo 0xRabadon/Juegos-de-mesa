@@ -74,9 +74,9 @@ export default function Page() {
   // 6. RENDERIZADO
   if (loading) {
     return (
-      <main className={styles.container}>
-        <h1 className={styles.pageHeader}>Cargando catálogo...</h1>
-      </main>
+  <div className={styles.imagenCentrada}>
+      <img src="/foto1.png" alt="Mi imagen" />
+  </div>
     );
   }
 
@@ -178,6 +178,16 @@ export default function Page() {
 
       <div className={styles.leftBar}></div>
       <div className={styles.rightBar}></div>
+<footer className={styles.miFooter}>
+  <p>Creado por <br />
+    Luis Ovalle<br />
+    Vicente Morales<br />
+    Vicente Paredes<br />
+    Marco Peralta<br />
+    Andrei Mancilla<br />
+    Todos los derechos resevados 2025<br />
+  </p>
+</footer>
     </>
   );
 }

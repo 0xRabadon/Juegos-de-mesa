@@ -206,3 +206,22 @@
   .leftBar { left: 0; }
   .rightBar { right: 0; }
 }
+
+.imagenCentrada {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+/* Centra el texto del footer horizontalmente */
+.miFooter {
+  display: flex;           /* Habilitamos flexbox */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  width: 100%;             /* Aseguramos el ancho total */
+  padding: 15px 0;         /* Espaciado interno */
+  color: #000;             /* Texto claro */
+  font-size: 0.9em;
+  text-align: center;      /* Opcional: Centra el texto en caso de que el párrafo sea muy largo */
+}
